@@ -67,6 +67,15 @@ public class GTScoreboard extends PluginBase implements Listener{
 		
 	}
 	
+	public static void removeScoreboard(Player player) {
+		if(boards.containsKey(player)) {
+			RemoveObjectivePacket packet = new RemoveObjectivePacket();
+			packet.objectiveName = getScoreboard(player).getObjective().objectiveName;
+			player.dataPacket(packet);
+			boards.remove(player);
+		}
+	}
+	
 	public static Scoreboard getScoreboard(Player player) {
 		try {
 			return boards.get(player);
