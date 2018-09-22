@@ -4,3 +4,8 @@ api: ["1.0.0"]
 version: "1.0"
 author: "Ragnok123"
 depend: ["GTCore"]
+commands:
+ board:
+  description: "Test"
+ board1:
+  description: "Test again"

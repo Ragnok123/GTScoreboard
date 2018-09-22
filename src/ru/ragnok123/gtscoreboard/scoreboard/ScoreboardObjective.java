@@ -1,7 +1,6 @@
 package ru.ragnok123.gtscoreboard.scoreboard;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import cn.nukkit.entity.Entity;
 
@@ -14,7 +13,7 @@ public class ScoreboardObjective {
 	public DisplaySlot displaySlot;
 	public Criteria criteria;
 	public String displayName;
-	public List<Score> scores = new ArrayList<Score>();
+	public HashMap<String, Score> scores = new HashMap<String, Score>();
 	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
@@ -35,28 +34,32 @@ public class ScoreboardObjective {
 	public void setScore(String fake, int value) {
 		Score score = new Score(this, fake);
 		score.setScore(value);
-		scores.add(score);
-		for(Score s : new ArrayList<Score>(scores)) {
-			if(s.fakePlayer.equals(fake) && s.scoreboardId != score.scoreboardId) {
-				scores.remove(s);
-			}
+		if(!scores.containsKey(fake)) {
+			scores.put(fake, score);
+		} else {
+			Score modified = scores.get(fake);
+			modified.setScore(value);
+			scores.remove(fake);
+			scores.put(fake, modified);
 		}
 	}
 	
 	public void resetScore(String fake) {
 		Score score = new Score(this, fake);
 		score.addOrRemove = 1;
-		scores.add(score);
-		for(Score s : new ArrayList<Score>(scores)) {
-			if(s.fakePlayer.equals(fake) && s.scoreboardId != score.scoreboardId) {
-				scores.remove(s);
-			}
+		if(!scores.containsKey(fake)) {
+			scores.put(fake, score);
+		} else {
+			Score modified = scores.get(fake);
+			modified.addOrRemove = 1;
+			scores.remove(fake);
+			scores.put(fake, modified);
 		}
 	}
 	
 	public Score getScore(String fake) {
 		Score score = null;
-        for(Score s : scores)
+        for(Score s : scores.values())
         {
             if (s.fakePlayer.equals(fake))
             {

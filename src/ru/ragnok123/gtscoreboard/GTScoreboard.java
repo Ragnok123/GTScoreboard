@@ -46,7 +46,7 @@ public class GTScoreboard extends PluginBase implements Listener{
 		pk1.sortOrder = 1;
 		player.dataPacket(pk1);
 		
-		for(Score score : scoreboard.objective.scores) {
+		for(Score score : scoreboard.objective.scores.values()) {
 			
 			ScorePacketInfo info = new ScorePacketInfo();
 			info.scoreboardId = score.scoreboardId;
@@ -76,19 +76,28 @@ public class GTScoreboard extends PluginBase implements Listener{
 	}
 	
 	
-/*	@Override
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player)sender;
 		switch(cmd.getName()){
 			case "board":
-				Scoreboard board1 = getScoreboard(player);
-				board1.objective.setScore("§l§e"+player.getName(), 8);
-				board1.objective.resetScore("§l§c-----------");
-				setScoreboard(player, board1);
+				Scoreboard board = new Scoreboard();
+				ScoreboardObjective obj = board.registerNewObjective("gameteam_test", Criteria.Dummy);
+				obj.setDisplaySlot(DisplaySlot.Sidebar);
+				obj.setDisplayName("GameTeam");
+				obj.setScore("§l§e"+player.getName(), 2);
+				obj.setScore("§l§c-----------", 1);
+				setScoreboard(player, board);
 				break;
+			case "board1":
+				Scoreboard board1 = getScoreboard(player);
+				ScoreboardObjective ob = board1.getObjective();
+				ob.setScore("§l§e"+player.getName(), 20);
+				ob.resetScore("§l§c-----------");
+				setScoreboard(player, board1);
 			}
 		return false;
-	}*/
+	}
 	
 
 }
