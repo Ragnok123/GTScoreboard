@@ -75,7 +75,7 @@ public class ScoreboardObjective {
 		String s = "";
 		 switch (criteria)
          {
-             case Dummy:
+             case DUMMY:
                  s = "dummy";
                  break;
          }
@@ -87,13 +87,13 @@ public class ScoreboardObjective {
         String slot = "";
         switch (displaySlot)
         {
-            case Sidebar:
+            case SIDEBAR:
                 slot = "sidebar";
                 break;
-            case List:
+            case LIST:
                 slot = "list";
                 break;
-            case BelowName:
+            case BELOWNAME:
                 slot = "belowname";
                 break;
         }

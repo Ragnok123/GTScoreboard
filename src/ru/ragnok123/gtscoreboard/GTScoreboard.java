@@ -85,14 +85,14 @@ public class GTScoreboard extends PluginBase implements Listener{
 	}
 	
 	
-	@Override
+  /*@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player)sender;
 		switch(cmd.getName()){
 			case "board":
 				Scoreboard board = new Scoreboard();
-				ScoreboardObjective obj = board.registerNewObjective("gameteam_test", Criteria.Dummy);
-				obj.setDisplaySlot(DisplaySlot.Sidebar);
+				ScoreboardObjective obj = board.registerNewObjective("gameteam_test", Criteria.DUMMY);
+				obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 				obj.setDisplayName("GameTeam");
 				obj.setScore("§l§e"+player.getName(), 2);
 				obj.setScore("§l§c-----------", 1);
@@ -106,7 +106,7 @@ public class GTScoreboard extends PluginBase implements Listener{
 				setScoreboard(player, board1);
 			}
 		return false;
-	}
+	}*/
 	
 
 }
