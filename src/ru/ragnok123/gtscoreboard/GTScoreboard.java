@@ -12,9 +12,11 @@ import cn.nukkit.plugin.PluginBase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import GTCore.player.GTPlayer;
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 public class GTScoreboard extends PluginBase implements Listener{
@@ -30,23 +32,26 @@ public class GTScoreboard extends PluginBase implements Listener{
 	}
 	
 	
-	public static void setScoreboard(Player player, Scoreboard scoreboard) {
-		if(!boards.containsKey(player)) {
-			boards.put(player, scoreboard);
-		} else {
-			boards.remove(player);
+	public static void sendScoreboard(Player player, Scoreboard scoreboard) {
+		if(getScoreboard(player) == null) {
+			SetDisplayObjectivePacket pk1 = new SetDisplayObjectivePacket();
+			pk1.objectiveName = scoreboard.getObjective().objectiveName;
+			pk1.displayName = scoreboard.getObjective().displayName;
+			pk1.criteriaName = scoreboard.getObjective().criteriaToString();
+			pk1.displaySlot = scoreboard.getObjective().slotToString();
+			pk1.sortOrder = 1;
+			player.dataPacket(pk1);
 			boards.put(player, scoreboard);
 		}
+		boards.remove(player);
+		boards.put(player, scoreboard);
 		
-		SetDisplayObjectivePacket pk1 = new SetDisplayObjectivePacket();
-		pk1.objectiveName = scoreboard.getObjective().objectiveName;
-		pk1.displayName = scoreboard.getObjective().displayName;
-		pk1.criteriaName = scoreboard.getObjective().criteriaToString();
-		pk1.displaySlot = scoreboard.getObjective().slotToString();
-		pk1.sortOrder = 1;
-		player.dataPacket(pk1);
+		HashMap<String, Score> fakeMap = new HashMap<String, Score>();
+		for(Map.Entry<String,Score> e :scoreboard.getObjective().scores.entrySet()) {
+			fakeMap.put(e.getKey(), e.getValue());
+		}
 		
-		for(Score score : scoreboard.objective.scores.values()) {
+		for(Score score : fakeMap.values()) {
 			
 			ScorePacketInfo info = new ScorePacketInfo();
 			info.scoreboardId = score.scoreboardId;
@@ -63,6 +68,11 @@ public class GTScoreboard extends PluginBase implements Listener{
 			pk2.type = (byte) score.addOrRemove;
 			pk2.entries = list;
 			player.dataPacket(pk2);
+			
+			if(score.addOrRemove == 1) {
+				String id = score.fakeId;
+				scoreboard.getObjective().scores.remove(id);
+			}
 		}
 		
 	}
@@ -85,7 +95,7 @@ public class GTScoreboard extends PluginBase implements Listener{
 	}
 	
 	
-  /*@Override
+  /*  @Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player player = (Player)sender;
 		switch(cmd.getName()){
@@ -94,16 +104,26 @@ public class GTScoreboard extends PluginBase implements Listener{
 				ScoreboardObjective obj = board.registerNewObjective("gameteam_test", Criteria.DUMMY);
 				obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 				obj.setDisplayName("GameTeam");
-				obj.setScore("§l§e"+player.getName(), 2);
-				obj.setScore("§l§c-----------", 1);
-				setScoreboard(player, board);
+				obj.registerScore("player","§l§e"+player.getName(), 2);
+				obj.registerScore("line_1","§l§c----------", 1);
+				sendScoreboard(player, board);
 				break;
-			case "board1":
+		/*	case "board1":
 				Scoreboard board1 = getScoreboard(player);
 				ScoreboardObjective ob = board1.getObjective();
-				ob.setScore("§l§e"+player.getName(), 20);
-				ob.resetScore("§l§c-----------");
-				setScoreboard(player, board1);
+				ob.setScore("player", 20);
+				ob.setScoreText("player", "§l§a"+player.getName());
+				ob.resetScore("line_1");
+				sendScoreboard(player, board1);
+				break;
+			case "board2":
+				Scoreboard board2 = getScoreboard(player);
+				ScoreboardObjective o1 = board2.getObjective();
+				o1.setScore("player", 2);
+				o1.setScoreText("player", "§l§e"+player.getName());
+				o1.registerScore("line_1","§l§b-----------", 1);
+				sendScoreboard(player, board2);
+				break;
 			}
 		return false;
 	}*/

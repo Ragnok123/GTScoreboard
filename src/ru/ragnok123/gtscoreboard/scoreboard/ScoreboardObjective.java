@@ -2,6 +2,7 @@ package ru.ragnok123.gtscoreboard.scoreboard;
 
 import java.util.*;
 
+import cn.nukkit.Server;
 import cn.nukkit.entity.Entity;
 
 public class ScoreboardObjective {
@@ -31,44 +32,53 @@ public class ScoreboardObjective {
 		return this.displaySlot;
 	}
 	
-	public void setScore(String fake, int value) {
+	public void registerScore(String id, String fake, int value) {
+		registerScore(id, fake, value, 0);
+	}
+	
+	private void registerScore(String id, String fake, int value, int type) {
 		Score score = new Score(this, fake);
 		score.setScore(value);
-		if(!scores.containsKey(fake)) {
-			scores.put(fake, score);
+		score.fakeId = id;
+		score.addOrRemove = type;
+		if(!scores.containsKey(id)) {
+			scores.put(id, score);
 		} else {
-			Score modified = scores.get(fake);
+			Server.getInstance().getLogger().info("Score with same id is already registered!");
+		}
+	}
+	
+	public void setScore(String id, int value) {
+		if(scores.containsKey(id)) {
+			Score modified = scores.get(id);
 			modified.setScore(value);
-			scores.remove(fake);
-			scores.put(fake, modified);
+			scores.remove(id);
+			scores.put(id, modified);
 		}
 	}
 	
-	public void resetScore(String fake) {
-		Score score = new Score(this, fake);
-		score.addOrRemove = 1;
-		if(!scores.containsKey(fake)) {
-			scores.put(fake, score);
-		} else {
-			Score modified = scores.get(fake);
+	public void setScoreText(String id, String text) {
+		if(scores.containsKey(id)) {
+			Score old = scores.get(id);
+			old.addOrRemove = 1;
+			old.fakeId = id + "_old_changed";
+			
+			Score nju = new Score(this, text);
+			nju.setScore(old.getScore());
+			nju.fakeId = id;
+			scores.remove(id);
+			scores.put(id, nju);
+			scores.put(id + "_old_changed", old);
+		}
+	}
+	
+	public void resetScore(String id) {
+		if(scores.containsKey(id)) {
+			Score modified = scores.get(id);
 			modified.addOrRemove = 1;
-			scores.remove(fake);
-			scores.put(fake, modified);
+			scores.remove(id);
+			scores.put(id, modified);
 		}
-	}
-	
-	public Score getScore(String fake) {
-		Score score = null;
-        for(Score s : scores.values())
-        {
-            if (s.fakePlayer.equals(fake))
-            {
-                score = s;
-            } else {
-            	score = new Score(this, fake);
-            }
-        }
-        return score;
 	}
 	
 	public String criteriaToString() {
