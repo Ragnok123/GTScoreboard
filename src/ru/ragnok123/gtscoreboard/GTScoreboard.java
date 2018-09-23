@@ -40,7 +40,6 @@ public class GTScoreboard extends PluginBase implements Listener{
 	}
 	
 	public static void sendScoreboard(Player player, Scoreboard scoreboard) {
-		
 		if(!boards.containsKey(player)) {
 			scoreboard.player = player;
 			boards.put(player, scoreboard);
@@ -49,7 +48,6 @@ public class GTScoreboard extends PluginBase implements Listener{
 			scoreboard.player = player;
 			boards.put(player, scoreboard);
 		}
-		
 	}
 	
 	public static void removeScoreboard(Player player) {
