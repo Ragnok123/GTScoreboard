@@ -72,6 +72,15 @@ public class ScoreboardObjective {
 		}
 	}
 	
+	public int getScore(String id) {
+		int i = 0;
+		if(scores.containsKey(id)) {
+			Score score = scores.get(id);
+			i = score.getScore();
+		}
+		return i;
+	}
+	
 	public void resetScore(String id) {
 		if(scores.containsKey(id)) {
 			Score modified = scores.get(id);
