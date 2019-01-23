@@ -3,3 +3,4 @@ name: "GTScoreboard"
 api: ["1.0.0"]
 version: "1.0"
 author: "Ragnok123"
+commands:

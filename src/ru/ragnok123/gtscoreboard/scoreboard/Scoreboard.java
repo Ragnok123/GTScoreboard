@@ -45,6 +45,9 @@ public class Scoreboard {
 	}
 	
 	public void onUpdate() {
+		RemoveObjectivePacket pk = new RemoveObjectivePacket();
+		pk.objectiveName = getObjective().objectiveName;
+		player.dataPacket(pk);
 		
 		SetDisplayObjectivePacket pk1 = new SetDisplayObjectivePacket();
 		pk1.objectiveName = getObjective().objectiveName;
