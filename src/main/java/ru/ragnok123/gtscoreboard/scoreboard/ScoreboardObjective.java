@@ -10,11 +10,17 @@ public class ScoreboardObjective {
 	public static int Ascending = 0;
 	public static int Descending = 1;
 	
+	public int scoreboardTick = 0;
+	
 	public String objectiveName;
 	public DisplaySlot displaySlot;
 	public Criteria criteria;
 	public String displayName;
 	public HashMap<String, Score> scores = new HashMap<String, Score>();
+	
+	public int getScoreboardTick() {
+		return this.scoreboardTick;
+	}
 	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
