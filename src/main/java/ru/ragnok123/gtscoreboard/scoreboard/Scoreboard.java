@@ -17,6 +17,7 @@ public class Scoreboard {
 	public ScoreboardObjective objective;
 	public long id;
 	public Player player = null;
+	public HashMap<String,ScoreboardObjective> objectives = new HashMap<>();
 	
 	public static long randomId() {
 		Random rnd = new Random();
@@ -33,7 +34,41 @@ public class Scoreboard {
 		obj.objectiveName = objectiveName;
 		obj.criteria = criteria;
 		objective = obj;
+		if(!objectives.containsKey(objectiveName)) {
+			objectives.put(objectiveName,obj);
+		}
 		return objective;
+	}
+	
+	public ScoreboardObjective getObjective(String objectiveName) {
+		ScoreboardObjective obj = null;
+		if(objectives.containsKey(objectiveName)) {
+			obj = objectives.get(objectiveName);
+		}
+		return obj;
+	}
+	
+	public ScoreboardObjective tryGetCurrentObjective(String o) {
+		ScoreboardObjective v = null;
+		if(objectives.containsKey(o) && getObjective().objectiveName.contains(o)) {
+			v = getObjective();
+		}
+		return v;
+	}
+	
+	public void setObjective(String objectiveName) {
+		if(objectives.containsKey(objectiveName)) {
+			objective = objectives.get(objectiveName);
+		}
+	}
+	
+	public void unregisterObjective(String objectiveName) {
+		if(objectives.containsKey(objectiveName)) {
+			if(objective.objectiveName.equals(objectiveName)) {
+				objective = null;
+			}
+			objectives.remove(objectiveName);
+		}
 	}
 	
 	public ScoreboardObjective getObjective() {
