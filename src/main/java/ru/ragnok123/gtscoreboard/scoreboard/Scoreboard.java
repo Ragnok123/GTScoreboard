@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class Scoreboard {
 	
@@ -18,6 +19,7 @@ public class Scoreboard {
 	public long id;
 	public Player player = null;
 	public HashMap<String,ScoreboardObjective> objectives = new HashMap<>();
+	public Consumer<Scoreboard> updateHandler = null;
 	
 	public static long randomId() {
 		Random rnd = new Random();
@@ -79,7 +81,16 @@ public class Scoreboard {
 		}
 	}
 	
+	public void addUpdater(Consumer<Scoreboard> consumer) {
+		this.updateHandler = consumer;
+	}
+	
 	public void onUpdate() {
+		
+		if(this.updateHandler != null) {
+			this.updateHandler.accept(this);
+		}
+		
 		RemoveObjectivePacket pk = new RemoveObjectivePacket();
 		pk.objectiveName = getObjective().objectiveName;
 		player.dataPacket(pk);
