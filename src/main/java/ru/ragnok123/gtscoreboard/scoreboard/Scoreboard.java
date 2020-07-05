@@ -125,7 +125,6 @@ public class Scoreboard {
 			pk2.type = (byte) score.addOrRemove;
 			pk2.entries = list;
 			player.dataPacket(pk2);
-			
 			if(score.addOrRemove == 1) {
 				String id = score.fakeId;
 				getObjective().scores.remove(id);

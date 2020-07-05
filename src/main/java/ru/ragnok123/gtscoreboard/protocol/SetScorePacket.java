@@ -34,14 +34,16 @@ public class SetScorePacket extends DataPacket{
 			this.putVarLong(entry.scoreboardId);
 			this.putString(entry.objectiveName);
 			this.putLInt(entry.score);
-			this.putByte(entry.addType);
-			switch(entry.addType) {
-			case 1:
-			case 2:
-				this.putEntityUniqueId(entry.entityId);
-				break;
-			case 3:
+			if(this.type == 0) {
+				this.putByte(entry.addType);
+				switch(entry.addType) {
+				case 1:
+				case 2:
+					this.putEntityUniqueId(entry.entityId);
+					break;
+				case 3:
 				this.putString(entry.fakePlayer);
+				}
 			}
 		}
 	}
