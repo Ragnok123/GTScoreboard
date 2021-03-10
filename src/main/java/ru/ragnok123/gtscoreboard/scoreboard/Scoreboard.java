@@ -1,6 +1,7 @@
 package ru.ragnok123.gtscoreboard.scoreboard;
 
 import cn.nukkit.Player;
+import ru.ragnok123.gtscoreboard.GTScoreboard;
 import ru.ragnok123.gtscoreboard.protocol.RemoveObjectivePacket;
 import ru.ragnok123.gtscoreboard.protocol.ScorePacketInfo;
 import ru.ragnok123.gtscoreboard.protocol.SetDisplayObjectivePacket;
@@ -130,6 +131,10 @@ public class Scoreboard {
 				getObjective().scores.remove(id);
 			}
 		}
+	}
+	
+	public void show(Player p) {
+		GTScoreboard.sendScoreboard(p, this);
 	}
 
 
