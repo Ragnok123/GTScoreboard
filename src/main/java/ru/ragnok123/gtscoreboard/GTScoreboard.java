@@ -65,30 +65,6 @@ public class GTScoreboard extends PluginBase implements Listener{
 			return null;
 		}
 	}
-	/*
-	@EventHandler
-	public void j(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
-		Scoreboard board = new Scoreboard();
-		ScoreboardObjective obj = board.registerNewObjective("gameteam_test", Criteria.DUMMY);
-		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		obj.setDisplayName("GameTeam");
-		obj.registerScore("player","§l§e"+player.getName(), 2);
-		obj.registerScore("line_1","§l§c----------", 1);
-		sendScoreboard(player, board);
-	}
-/*	
-    @Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		Player player = (Player)sender;
-		switch(cmd.getName()){
-			case "board":
-				Scoreboard board = getScoreboard(player);
-				board.getObjective().setScoreText("line_1", "§l§b--------");
-				break;
-			}
-		return false;
-	}
-	*/
+
 
 }
