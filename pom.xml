@@ -16,6 +16,10 @@
             <url>http://repo.nukkitx.com/main/</url>
         </repository>
         <repository>
+			<id>repo-lanink-cn</id>
+        	<url>https://repo.lanink.cn/repository/maven-public/</url>
+		</repository>
+        <repository>
             <id>sonatype-nexus-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <snapshots>
@@ -26,9 +30,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.powernukkitx</groupId>
-            <artifactId>powernukkitx</artifactId>
-            <version>1.20.10-r1</version>
+            <groupId>cn.nukkit</groupId>
+            <artifactId>Nukkit</artifactId>
+            <version>MOT-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>biz.paluch.redis</groupId>
